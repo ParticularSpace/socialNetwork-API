@@ -1,20 +1,22 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const config = require('./config/config');
 
+// Import routes
+const userRoutes = require('./routes/users');
+const thoughtRoutes = require('./routes/thoughts');
 
 const app = express();
 
-
-const PORT = process.env.PORT || 3001;
-
-
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/social-network-api', {
+mongoose.connect(config.db.uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
-// Use this to log mongo queries being executed!
 mongoose.set('debug', true);
 
-// Start the server and have it listen on the specified port
-app.listen(PORT, () => console.log(`🌍 Connected on localhost:${PORT}`));
+// Use routes
+app.use('/api/users', userRoutes);
+app.use('/api/thoughts', thoughtRoutes);
+
+app.listen(config.port, () => console.log(`🌍 Connected on localhost:${config.port}`));
