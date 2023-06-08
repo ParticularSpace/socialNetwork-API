@@ -1,6 +1,5 @@
 const Thought = require('../models/Thought');
 
-console.log(Thought, 'yoooooo THOUGHT');
 
 const thoughtController = {
     // get all thoughts
@@ -16,9 +15,19 @@ const thoughtController = {
     // create a new thought
     createThought({ body }, res) {
         Thought.create(body)
-            .then(dbThoughtData => res.json(dbThoughtData))
-            .catch(err => res.status(400).json(err));
-    },
+          .then(dbThoughtData => {
+            if (!dbThoughtData) {
+              res.status(400).json({ message: 'Failed to create thought' });
+              return;
+            }
+            res.json(dbThoughtData);
+          })
+          .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+          });
+      },
+      
 
     // get a thought by id
     getThoughtById({ params }, res) {

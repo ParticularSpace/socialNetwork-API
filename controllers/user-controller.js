@@ -1,9 +1,6 @@
 const User = require('../models/User');
 
 
-
-console.log(User, 'yoooooo USER');
-
 const userController = {
   // get all users
 getAllUsers(req, res) {
