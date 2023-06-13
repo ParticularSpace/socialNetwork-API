@@ -41,8 +41,22 @@ UserSchema.virtual('friendCount').get(function() {
 
 // Delete associated thoughts when a user is deleted
 UserSchema.pre('remove', function(next) {
-  this.model('Thought').deleteMany({ userId: this._id }, next);
+  this.model('Thought').deleteMany({ userId: this._id }, (err, res) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(res);
+    }
+    next();
+  });
 });
+
+
+
+
+
+
+
 
 
 
